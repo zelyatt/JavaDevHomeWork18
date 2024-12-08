@@ -1,34 +1,36 @@
 package org.example.javadevhomework14.model;
 
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
 
 public class Note {
-    private Long Id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String title;
     private String content;
 
-    @Override
-    public String toString() {
-        return "Note{" +
-                "Id=" + Id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                '}';
-    }
-
     public Note(Long id, String title, String content) {
-        Id = id;
+        this.id = id;
         this.title = title;
         this.content = content;
     }
 
+    public Note() {
+
+    }
+
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getTitle() {
