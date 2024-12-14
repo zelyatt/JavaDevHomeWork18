@@ -30,6 +30,7 @@ public class NoteService {
     public void deleteById(long id) {
         notes.removeIf(note -> note.getId() == id);
     }
+
     public void update(Note note) {
         Optional<Note> optionalNote = notes.stream()
                 .filter(n -> n.getId().equals(note.getId()))
@@ -41,11 +42,11 @@ public class NoteService {
             throw new IllegalArgumentException("Note not found");
         }
     }
+
     public Note getById(long id) {
         return notes.stream()
                 .filter(note -> note.getId() == id)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Note not found"));
     }
-
 }

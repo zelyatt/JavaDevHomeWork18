@@ -6,7 +6,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-
 public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,9 +20,7 @@ public class Note {
         this.content = content;
     }
 
-    public Note() {
-
-    }
+    public Note() {}
 
     public Long getId() {
         return id;
