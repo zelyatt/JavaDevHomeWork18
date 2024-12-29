@@ -8,8 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/note")
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/notes")
 public class NoteController {
 
     private final NoteService noteService;
@@ -18,47 +20,24 @@ public class NoteController {
         this.noteService = noteService;
     }
 
-    @GetMapping("/list")
-    public String listNotes(Model model) {
-        model.addAttribute("notes", noteService.listAll());
-        return "note/list";
+    @GetMapping
+    public List<Note> getAllNotes() {
+        return noteService.listAll();
     }
 
-    @PostMapping("/delete")
-    public String deleteNote(@RequestParam("id") Long id) {
+    @PostMapping
+    public Note createNote(@RequestBody @Valid Note note) {
+        return noteService.add(note);
+    }
+
+    @PutMapping("/{id}")
+    public Note updateNote(@PathVariable Long id, @RequestBody @Valid Note note) {
+        note.setId(id);
+        return noteService.update(note);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteNote(@PathVariable Long id) {
         noteService.deleteById(id);
-        return "redirect:/note/list";
-    }
-
-    @GetMapping("/edit")
-    public String editNote(@RequestParam("id") Long id, Model model) {
-        Note note = noteService.getById(id);
-        model.addAttribute("note", note);
-        return "note/edit";
-    }
-
-    @PostMapping("/edit")
-    public String updateNote(@RequestParam("id") Long id,
-                             @RequestParam("title") String title,
-                             @RequestParam("content") String content) {
-        Note updateNote = new Note(id, title, content);
-        noteService.update(updateNote);
-        return "redirect:/note/list";
-    }
-
-    @GetMapping("/add")
-    public String addNoteForm(Model model) {
-        model.addAttribute("note", new Note());
-        return "note/add";
-    }
-
-    @PostMapping("/add")
-    public String addNote(@RequestParam("title") String title,
-                          @RequestParam("content") String content) {
-        Note note = new Note();
-        note.setTitle(title);
-        note.setContent(content);
-        noteService.add(note);
-        return "redirect:/note/list";
     }
 }

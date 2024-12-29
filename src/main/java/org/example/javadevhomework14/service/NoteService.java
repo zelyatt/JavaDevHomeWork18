@@ -29,12 +29,12 @@ public class NoteService {
         noteRepository.deleteById(id);
     }
 
-    public void update(Note note) {
+    public Note update(Note note) {
         Note existingNote = noteRepository.findById(note.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Note not found"));
         existingNote.setTitle(note.getTitle());
         existingNote.setContent(note.getContent());
-        noteRepository.save(existingNote);
+        return noteRepository.save(existingNote);
     }
 
     public Note getById(long id) {
